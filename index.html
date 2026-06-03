@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relaxation Technique Rating Scale | 放鬆技巧評估量表</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:          #eef4f1;
+      --card:        #ffffff;
+      --primary:     #2e6b58;
+      --primary-mid: #3d8a70;
+      --primary-lt:  #a8cfc3;
+      --accent:      #c8a96e;
+      --accent-lt:   #f3ead8;
+      --text:        #1e2d27;
+      --text-muted:  #5a6e67;
+      --border:      #d5e2dd;
+      --row-hover:   #f5faf8;
+      --radius-lg:   16px;
+      --radius-md:   10px;
+      --radius-sm:   6px;
+      --shadow:      0 6px 32px rgba(30,70,55,0.10);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Serif TC', 'Noto Sans TC', 'PingFang TC', 'Apple LiSung', Georgia, serif;
+      min-height: 100vh;
+      padding: 24px 16px 80px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Language toggle ──────────────────────────────── */
+    .lang-toggle {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 200;
+      display: flex;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 2px solid var(--primary);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+    }
+    .lang-btn {
+      padding: 7px 18px;
+      background: white;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--primary);
+      transition: background 0.2s, color 0.2s;
+      letter-spacing: 0.3px;
+    }
+    .lang-btn.active { background: var(--primary); color: white; }
+    .lang-btn:hover:not(.active) { background: var(--primary-lt); color: var(--primary); }
+
+    /* ── Language visibility ──────────────────────────── */
+    body.lang-en .zh { display: none !important; }
+    body.lang-zh .en { display: none !important; }
+
+    /* ── Layout ──────────────────────────────────────── */
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    /* ── Header ──────────────────────────────────────── */
+    .header {
+      background: linear-gradient(145deg, var(--primary) 0%, var(--primary-mid) 100%);
+      color: white;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      padding: 44px 36px 32px;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -90px; left: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+    }
+    .header-leaf {
+      font-size: 44px;
+      display: block;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
+    }
+    .header h1 {
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      line-height: 1.45;
+    }
+    .header .sub {
+      font-size: 13.5px;
+      margin-top: 6px;
+      opacity: 0.82;
+      font-weight: 300;
+      letter-spacing: 0.3px;
+    }
+
+    /* ── Card ─────────────────────────────────────────── */
+    .card {
+      background: var(--card);
+      padding: 36px 38px 40px;
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+
+    /* ── Instructions ─────────────────────────────────── */
+    .instructions {
+      background: #edf7f3;
+      border-left: 4px solid var(--primary-mid);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 15px 20px;
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 30px;
+    }
+
+    /* ── Client info ──────────────────────────────────── */
+    .client-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+    .field-group label {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+    }
+    .field-group input {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: #fcfefe;
+    }
+    .field-group input:focus {
+      border-color: var(--primary-mid);
+      box-shadow: 0 0 0 3px rgba(61,138,112,0.12);
+    }
+
+    /* ── Section heading ──────────────────────────────── */
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary-lt);
+    }
+    .section-num {
+      background: var(--primary);
+      color: white;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .section-head .label {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--primary);
+      line-height: 1.5;
+    }
+
+    /* ── Technique cards ──────────────────────────────── */
+    .technique-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+    .tech-option { position: relative; }
+    .tech-option input[type="radio"] {
+      position: absolute; opacity: 0; width: 0; height: 0;
+    }
+    .tech-option label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px 10px 18px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      text-align: center;
+      min-height: 108px;
+      transition: border-color 0.22s, background 0.22s, box-shadow 0.22s;
+    }
+    .tech-option label:hover {
+      border-color: var(--primary-mid);
+      background: #f2faf6;
+      box-shadow: 0 2px 10px rgba(30,90,70,0.07);
+    }
+    .tech-option input:checked + label {
+      border-color: var(--primary);
+      background: #e8f5ef;
+      box-shadow: 0 0 0 3px rgba(46,107,88,0.15);
+    }
+    .tech-icon { font-size: 30px; line-height: 1; }
+    .tech-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.45;
+    }
+    .tech-option input:checked + label .tech-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* ── Rating legend ────────────────────────────────── */
+    .rating-wrap { margin-bottom: 28px; }
+
+    .scale-legend {
+      display: grid;
+      grid-template-columns: minmax(180px, 2.6fr) repeat(5, 1fr);
+      gap: 4px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary-lt);
+      margin-bottom: 4px;
+    }
+    .leg-cell {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+      text-align: center;
+      line-height: 1.35;
+      padding: 3px 2px 6px;
+    }
+    .leg-cell:first-child { text-align: left; }
+    .leg-num {
+      font-size: 11px;
+      color: var(--primary-lt);
+      font-weight: 600;
+      text-align: center;
+      margin-top: 2px;
+    }
+
+    /* ── Rating rows ──────────────────────────────────── */
+    .rating-row {
+      display: grid;
+      grid-template-columns: minmax(180px, 2.6fr) repeat(5, 1fr);
+      gap: 4px;
+      align-items: center;
+      padding: 11px 6px;
+      border-bottom: 1px solid #edf2f0;
+      border-radius: var(--radius-sm);
+      transition: background 0.15s;
+    }
+    .rating-row:hover { background: var(--row-hover); }
+    .rating-row.answered { background: #f4faf7; }
+
+    .q-text {
+      font-size: 13.5px;
+      line-height: 1.65;
+      padding-right: 10px;
+      color: var(--text);
+    }
+    .q-num {
+      font-weight: 600;
+      color: var(--primary-mid);
+      margin-right: 5px;
+    }
+
+    /* ── Radio circles ────────────────────────────────── */
+    .r-cell {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .radio-wrap {
+      position: relative;
+      width: 30px; height: 30px;
+      cursor: pointer;
+    }
+    .radio-wrap input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 100%; height: 100%;
+      cursor: pointer;
+      z-index: 2; margin: 0;
+    }
+    .radio-ring {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: white;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.18s, background 0.18s;
+      pointer-events: none;
+    }
+    .radio-wrap:hover .radio-ring { border-color: var(--primary-mid); }
+    .radio-wrap input:checked + .radio-ring {
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+    .radio-wrap input:checked + .radio-ring::after {
+      content: '';
+      width: 11px; height: 11px;
+      border-radius: 50%;
+      background: white;
+      display: block;
+    }
+
+    /* ── Score note below table ───────────────────────── */
+    .score-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 10px;
+      text-align: right;
+      font-style: italic;
+    }
+
+    /* ── Buttons ──────────────────────────────────────── */
+    .action-bar {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 13px 30px;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.2s;
+      letter-spacing: 0.2px;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 14px rgba(46,107,88,0.28);
+    }
+    .btn-primary:hover {
+      background: #245847;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(46,107,88,0.35);
+    }
+    .btn-secondary {
+      background: white;
+      color: var(--text-muted);
+      border: 1.5px solid var(--border);
+    }
+    .btn-secondary:hover { background: var(--bg); }
+    .btn-print {
+      background: white;
+      color: var(--text-muted);
+      border: 1.5px solid var(--border);
+      font-size: 14px;
+      padding: 11px 22px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .btn-print:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* ── Warning ──────────────────────────────────────── */
+    .warning-box {
+      display: none;
+      background: #fff8e6;
+      border: 1.5px solid #f0c84a;
+      border-radius: var(--radius-sm);
+      padding: 12px 18px;
+      font-size: 13.5px;
+      color: #7a5c00;
+      margin-top: 14px;
+    }
+    .warning-box.show { display: block; }
+
+    /* ── Score display ────────────────────────────────── */
+    .score-card {
+      display: none;
+      margin-top: 28px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 6px 28px rgba(46,107,88,0.18);
+      animation: slideUp 0.4s ease;
+    }
+    .score-card.show { display: block; }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .score-top {
+      background: linear-gradient(135deg, var(--primary), var(--primary-mid));
+      color: white;
+      text-align: center;
+      padding: 30px 28px 24px;
+    }
+    .score-heading { font-size: 13px; opacity: 0.85; letter-spacing: 0.6px; font-weight: 400; }
+    .score-big { font-size: 68px; font-weight: 300; line-height: 1; margin: 6px 0 2px; }
+    .score-of { font-size: 13px; opacity: 0.75; }
+
+    .score-bottom {
+      background: white;
+      padding: 22px 28px;
+    }
+    .score-band {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+    .band-icon { font-size: 26px; flex-shrink: 0; }
+    .band-text { color: var(--text); }
+
+    .score-bar-wrap {
+      height: 8px;
+      border-radius: 4px;
+      background: #e4eeea;
+      margin: 18px 0 6px;
+      overflow: hidden;
+    }
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #5cbf97, #2e6b58);
+      transition: width 0.8s cubic-bezier(.4,0,.2,1);
+    }
+    .bar-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* ── Reference ────────────────────────────────────── */
+    .reference {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 30px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      line-height: 1.7;
+    }
+
+    /* ── Print bar ────────────────────────────────────── */
+    .print-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+
+    /* ── Responsive ───────────────────────────────────── */
+    @media (max-width: 580px) {
+      .technique-group { grid-template-columns: 1fr; }
+      .client-info     { grid-template-columns: 1fr; }
+      .card            { padding: 24px 18px 28px; }
+      .header          { padding: 34px 20px 26px; }
+      .header h1       { font-size: 18px; }
+      .scale-legend,
+      .rating-row      { grid-template-columns: 1.6fr repeat(5, 1fr); }
+      .q-text          { font-size: 12.5px; }
+      .radio-ring,
+      .radio-wrap      { width: 26px; height: 26px; }
+    }
+
+    /* ── Print ────────────────────────────────────────── */
+    @media print {
+      .lang-toggle, .action-bar, .print-bar { display: none !important; }
+      body { background: white; padding: 0; }
+      .container { max-width: 100%; }
+      .card { box-shadow: none; border-radius: 0; padding: 20px; }
+      .header { border-radius: 0; }
+      .score-card.show { box-shadow: none; }
+    }
+  </style>
+</head>
+
+<body class="lang-en">
+
+  <!-- Language Toggle -->
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('en',this)">English</button>
+    <button class="lang-btn"       onclick="setLang('zh',this)">中文</button>
+  </div>
+
+  <div class="container">
+
+    <!-- Print button -->
+    <div class="print-bar">
+      <button class="btn btn-print" onclick="window.print()">
+        🖨️&nbsp;<span class="en">Print / Save</span><span class="zh">列印 / 儲存</span>
+      </button>
+    </div>
+
+    <!-- ── Header ── -->
+    <div class="header">
+      <span class="header-leaf">🌿</span>
+      <h1>
+        <span class="en">Relaxation Technique Rating Scale</span>
+        <span class="zh">放鬆技巧評估量表</span>
+      </h1>
+      <p class="sub">
+        <span class="en">Self-Assessment for Progress &amp; Improvement</span>
+        <span class="zh">個人進步評估</span>
+      </p>
+    </div>
+
+    <!-- ── Card ── -->
+    <div class="card">
+
+      <!-- Instructions -->
+      <div class="instructions">
+        <span class="en">
+          After you have practiced a relaxation technique, please answer the following questions to check your improvement.
+          Save your score and compare it with scores for other relaxation techniques you try.
+          Each technique should ideally be practiced for <strong>at least one week</strong> before completing this rating.
+          <em>The lower the score, the more appropriate this technique is for you.</em>
+        </span>
+        <span class="zh">
+          在您練習了放鬆技巧後，請回答以下問題以了解您的改善情況。
+          請保存您的分數，以便與其他技巧的分數作比較。
+          建議每種技巧<strong>至少練習一週</strong>後再完成此評估。
+          <em>分數越低，代表該技巧越適合您。</em>
+        </span>
+      </div>
+
+      <!-- Client Info -->
+      <div class="client-info">
+        <div class="field-group">
+          <label><span class="en">Name</span><span class="zh">姓名</span></label>
+          <input type="text" id="clientName"
+                 placeholder="" autocomplete="off" />
+        </div>
+        <div class="field-group">
+          <label><span class="en">Date</span><span class="zh">日期</span></label>
+          <input type="date" id="clientDate" />
+        </div>
+      </div>
+
+      <!-- ── Section 1: Technique ── -->
+      <div class="section-head">
+        <span class="section-num">1</span>
+        <span class="label">
+          <span class="en">Which relaxation technique did you practice today?</span>
+          <span class="zh">您今天練習了哪種放鬆技巧？</span>
+        </span>
+      </div>
+
+      <div class="technique-group" id="techniqueGroup">
+        <div class="tech-option">
+          <input type="radio" name="technique" id="tech1" value="Diaphragmatic Breathing" />
+          <label for="tech1">
+            <span class="tech-icon">🫁</span>
+            <span class="tech-label en">Diaphragmatic<br>Breathing</span>
+            <span class="tech-label zh">橫膈膜<br>呼吸法</span>
+          </label>
+        </div>
+        <div class="tech-option">
+          <input type="radio" name="technique" id="tech2" value="Imagery Relaxation" />
+          <label for="tech2">
+            <span class="tech-icon">🌄</span>
+            <span class="tech-label en">Imagery<br>Relaxation</span>
+            <span class="tech-label zh">意象<br>放鬆法</span>
+          </label>
+        </div>
+        <div class="tech-option">
+          <input type="radio" name="technique" id="tech3" value="Progressive Muscle Relaxation" />
+          <label for="tech3">
+            <span class="tech-icon">💆</span>
+            <span class="tech-label en">Progressive Muscle<br>Relaxation</span>
+            <span class="tech-label zh">漸進式肌肉<br>放鬆法</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- ── Section 2: Rating scale ── -->
+      <div class="section-head">
+        <span class="section-num">2</span>
+        <span class="label">
+          <span class="en">Please rate each statement based on your experience with the technique:</span>
+          <span class="zh">請根據您使用該技巧的體驗，就以下每項陳述作出評分：</span>
+        </span>
+      </div>
+
+      <div class="rating-wrap">
+        <!-- Legend row -->
+        <div class="scale-legend">
+          <div class="leg-cell"></div>
+          <div class="leg-cell">
+            <div><span class="en">Very<br>true</span><span class="zh">非常<br>符合</span></div>
+            <div class="leg-num">1</div>
+          </div>
+          <div class="leg-cell">
+            <div><span class="en">Somewhat<br>true</span><span class="zh">頗為<br>符合</span></div>
+            <div class="leg-num">2</div>
+          </div>
+          <div class="leg-cell">
+            <div><span class="en">I'm not<br>sure</span><span class="zh">不確定</span></div>
+            <div class="leg-num">3</div>
+          </div>
+          <div class="leg-cell">
+            <div><span class="en">Somewhat<br>untrue</span><span class="zh">頗為<br>不符合</span></div>
+            <div class="leg-num">4</div>
+          </div>
+          <div class="leg-cell">
+            <div><span class="en">Very<br>untrue</span><span class="zh">非常<br>不符合</span></div>
+            <div class="leg-num">5</div>
+          </div>
+        </div>
+
+        <!-- Question rows (generated by JS) -->
+        <div id="questionsContainer"></div>
+
+        <p class="score-note">
+          <span class="en">Score range: 10 (best fit) – 50 (poor fit)</span>
+          <span class="zh">分數範圍：10（最適合）– 50（不適合）</span>
+        </p>
+      </div>
+
+      <!-- Actions -->
+      <div class="action-bar">
+        <button class="btn btn-secondary" onclick="resetForm()">
+          <span class="en">Reset</span><span class="zh">重設</span>
+        </button>
+        <button class="btn btn-primary" onclick="calculateScore()">
+          <span class="en">Calculate My Score</span><span class="zh">計算我的分數</span>
+        </button>
+      </div>
+
+      <!-- Warning -->
+      <div class="warning-box" id="warningBox">
+        <span class="en">⚠️ Please answer all 10 questions before calculating your score.</span>
+        <span class="zh">⚠️ 請回答所有 10 條問題後，再計算您的分數。</span>
+      </div>
+
+      <!-- Score card -->
+      <div class="score-card" id="scoreCard">
+        <div class="score-top">
+          <div class="score-heading en">YOUR TOTAL SCORE</div>
+          <div class="score-heading zh">您的總分</div>
+          <div class="score-big" id="scoreNum">—</div>
+          <div class="score-of en">out of 50</div>
+          <div class="score-of zh">（滿分 50 分）</div>
+        </div>
+        <div class="score-bottom">
+          <div class="score-bar-wrap">
+            <div class="score-bar-fill" id="scoreBar" style="width:0%"></div>
+          </div>
+          <div class="bar-labels">
+            <span><span class="en">Best fit (10)</span><span class="zh">最適合（10）</span></span>
+            <span><span class="en">Poor fit (50)</span><span class="zh">不適合（50）</span></span>
+          </div>
+          <div class="score-band" id="scoreBand"></div>
+        </div>
+      </div>
+
+      <!-- Reference -->
+      <div class="reference">
+        <span class="en">Reference: Greenberg, J. S. (1999). <em>Comprehensive Stress Management</em> (6th ed.). New York: McGraw-Hill.</span>
+        <span class="zh">參考資料：Greenberg, J. S. (1999)。《綜合壓力管理》（第 6 版）。紐約：McGraw-Hill。</span>
+      </div>
+
+    </div><!-- /.card -->
+  </div><!-- /.container -->
+
+  <script>
+    /* ─── Data ─────────────────────────────────────────── */
+    const questions = [
+      {
+        en: "It felt good.",
+        zh: "感覺良好。"
+      },
+      {
+        en: "It was easy to fit into my schedule.",
+        zh: "容易配合我的日程安排。"
+      },
+      {
+        en: "It made me feel relaxed.",
+        zh: "令我感到放鬆。"
+      },
+      {
+        en: "I handled my daily chores better than I usually did.",
+        zh: "我比平時更能應付日常事務。"
+      },
+      {
+        en: "It was an easy technique to learn.",
+        zh: "這是一個容易學習的技巧。"
+      },
+      {
+        en: "I was able to detach from my surroundings while practicing this technique.",
+        zh: "練習這個技巧時，我能夠從周圍環境中抽離出來。"
+      },
+      {
+        en: "I did not feel tired after practicing this relaxation technique.",
+        zh: "練習這個放鬆技巧後，我沒有感到疲倦。"
+      },
+      {
+        en: "My fingers and toes felt warmer directly after trying this relaxation technique.",
+        zh: "嘗試這個放鬆技巧後，我的手指和腳趾隨即感到更暖和。"
+      },
+      {
+        en: "Any stress symptoms I had (headache, tense muscles, anxiety) before doing this relaxation technique disappeared by the time I was done.",
+        zh: "我在進行這個放鬆技巧前所出現的壓力症狀（頭痛、肌肉緊張、焦慮），在完成後均已消失。"
+      },
+      {
+        en: "Each time I concluded this technique, my pulse rate was much lower than when I began.",
+        zh: "每次完成這個技巧後，我的脈搏率比開始時明顯降低。"
+      }
+    ];
+
+    const bands = [
+      {
+        max: 20,
+        icon: "🌟",
+        en:  "Excellent fit! This technique suits you very well. Keep practicing regularly to maintain and build on the benefits.",
+        zh:  "非常適合！這個技巧非常適合您，請持續定期練習，以鞏固並深化其效益。",
+        bg:  "#e6f7ee"
+      },
+      {
+        max: 30,
+        icon: "✅",
+        en:  "Good fit. This technique is working well for you. Continue with regular practice to strengthen its effects.",
+        zh:  "相當適合。這個技巧對您有效，請繼續定期練習以加強其效果。",
+        bg:  "#edf7f3"
+      },
+      {
+        max: 40,
+        icon: "🔄",
+        en:  "Moderate fit. This technique may become more effective with continued practice. Give it more time before drawing conclusions.",
+        zh:  "一般適合。繼續練習後，此技巧可能更為有效，請給予更多時間再作評估。",
+        bg:  "#fef9e8"
+      },
+      {
+        max: 50,
+        icon: "💡",
+        en:  "This technique may not be the best fit for you at this time. Consider discussing with your therapist about trying a different relaxation technique.",
+        zh:  "這個技巧目前可能不太適合您。您可與治療師商討，考慮嘗試其他放鬆技巧。",
+        bg:  "#fef3f0"
+      }
+    ];
+
+    /* ─── Build question rows ───────────────────────────── */
+    const container = document.getElementById('questionsContainer');
+    questions.forEach((q, idx) => {
+      const n = idx + 1;
+      const row = document.createElement('div');
+      row.className = 'rating-row';
+      row.id = `row-${n}`;
+
+      let radios = '';
+      for (let v = 1; v <= 5; v++) {
+        radios += `
+          <div class="r-cell">
+            <label class="radio-wrap">
+              <input type="radio" name="q${n}" value="${v}"
+                     onchange="onAnswer(${n})" />
+              <div class="radio-ring"></div>
+            </label>
+          </div>`;
+      }
+
+      row.innerHTML = `
+        <div class="q-text">
+          <span class="q-num">(${n})</span>
+          <span class="en">${q.en}</span>
+          <span class="zh">${q.zh}</span>
+        </div>
+        ${radios}
+      `;
+      container.appendChild(row);
+    });
+
+    /* ─── Set today's date ──────────────────────────────── */
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm   = String(today.getMonth() + 1).padStart(2, '0');
+    const dd   = String(today.getDate()).padStart(2, '0');
+    document.getElementById('clientDate').value = `${yyyy}-${mm}-${dd}`;
+
+    /* ─── Language toggle ───────────────────────────────── */
+    function setLang(lang, btn) {
+      document.body.className = 'lang-' + lang;
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en';
+    }
+
+    /* ─── Highlight answered rows ───────────────────────── */
+    function onAnswer(n) {
+      const row = document.getElementById(`row-${n}`);
+      if (row) row.classList.add('answered');
+    }
+
+    /* ─── Calculate score ────────────────────────────────── */
+    function calculateScore() {
+      const warning = document.getElementById('warningBox');
+      let total = 0;
+      let missing = false;
+
+      for (let i = 1; i <= 10; i++) {
+        const sel = document.querySelector(`input[name="q${i}"]:checked`);
+        if (!sel) { missing = true; break; }
+        total += parseInt(sel.value);
+      }
+
+      if (missing) {
+        warning.classList.add('show');
+        warning.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      warning.classList.remove('show');
+
+      // Score number
+      document.getElementById('scoreNum').textContent = total;
+
+      // Bar fill: 0% = score 10 (best), 100% = score 50 (worst)
+      const pct = ((total - 10) / 40) * 100;
+      document.getElementById('scoreBar').style.width = pct + '%';
+
+      // Band
+      const band = bands.find(b => total <= b.max) || bands[bands.length - 1];
+      const bandEl = document.getElementById('scoreBand');
+      bandEl.style.background = band.bg;
+      bandEl.innerHTML = `
+        <span class="band-icon">${band.icon}</span>
+        <span class="band-text">
+          <span class="en">${band.en}</span>
+          <span class="zh">${band.zh}</span>
+        </span>`;
+
+      // Reapply language classes
+      const isZh = document.body.classList.contains('lang-zh');
+      bandEl.querySelectorAll('.en').forEach(el => {
+        el.style.display = isZh ? 'none' : '';
+      });
+      bandEl.querySelectorAll('.zh').forEach(el => {
+        el.style.display = isZh ? '' : 'none';
+      });
+
+      const card = document.getElementById('scoreCard');
+      card.classList.add('show');
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ─── Reset ──────────────────────────────────────────── */
+    function resetForm() {
+      document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+      document.querySelectorAll('.rating-row').forEach(r => r.classList.remove('answered'));
+      document.getElementById('scoreCard').classList.remove('show');
+      document.getElementById('warningBox').classList.remove('show');
+      document.getElementById('scoreNum').textContent = '—';
+      document.getElementById('scoreBar').style.width = '0%';
+      document.getElementById('clientName').value = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
